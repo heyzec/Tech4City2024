@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="header"></div>
+
+    <div id="uploadForm">
+      <label for="imageUpload">Upload Image:</label><br />
+      <input
+        type="file"
+        id="imageUpload"
+        name="imageUpload"
+        accept="image/*"
+        required
+      /><br /><br />
+
+      <button type="submit" onclick="handleUpload()">Submit</button>
+    </div>
+
+    <script>
+      function handleUpload() {
+        const fileInput = document.getElementById("imageUpload");
+        const file = fileInput.files[0];
+
+        if (file) {
+          console.log("File selected:", file);
+        } else {
+          console.error("No file selected.");
+        }
+      }
+    </script>
+  </body>
+</html>
