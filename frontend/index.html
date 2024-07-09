@@ -8,6 +8,14 @@
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
   <body>
+    <div id="tutorialModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="tutorialStep"></h2>
+        <p id="tutorialText">Welcome to BinaCloud's first product!</p>
+        <button class="nextBtn">Next</button>
+      </div>
+    </div>
     <div class="header"></div>
 
     <div id="uploadForm">
@@ -20,20 +28,9 @@
         required
       /><br /><br />
 
-      <button type="submit" onclick="handleUpload()">Submit</button>
+      <button type="submit" id="submitBtn">Submit</button>
     </div>
 
-    <script>
-      function handleUpload() {
-        const fileInput = document.getElementById("imageUpload");
-        const file = fileInput.files[0];
-
-        if (file) {
-          console.log("File selected:", file);
-        } else {
-          console.error("No file selected.");
-        }
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
