@@ -1,4 +1,4 @@
-// uploadScript.js
+// Upload Image
 function handleUpload() {
   const fileInput = document.getElementById("imageUpload");
   const file = fileInput.files[0];
@@ -10,9 +10,9 @@ function handleUpload() {
   }
 }
 
-// Landing modal
+// Tutorial Modal
 document.addEventListener("DOMContentLoaded", function () {
-  if (localStorage.getItem("visited") !== "tru") {
+  if (localStorage.getItem("visited") !== "true") {
     var modal = document.getElementById("tutorialModal");
     modal.style.display = "block";
 
@@ -30,25 +30,21 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
     var step = 0;
 
-    function updateTutorial() {
+    function updateTutorialText() {
       document.getElementById("tutorialStep").textContent =
         "Step " + (step + 1);
-      document.getElementById("tutorialText").innerHTML = tutorialText[step];
-      step++;
-      if (step === tutorialText.length) {
-        nextBtn.innerHTML = "End Tutorial";
-        nextBtn.addEventListener("click", function () {
-          modal.style.display = "none";
-          localStorage.setItem("visited", "false");
-        });
-      }
+      document.getElementById("tutorialText").textContent = tutorialText[step];
     }
 
-    updateTutorial();
+    updateTutorialText();
 
     nextBtn.addEventListener("click", function () {
+      step++;
       if (step < tutorialText.length) {
-        updateTutorial();
+        updateTutorialText();
+      } else {
+        modal.style.display = "none";
+        localStorage.setItem("visited", "true");
       }
     });
   }

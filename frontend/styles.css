@@ -22,14 +22,14 @@ body {
   background-color: #333;
 }
 
+/* Form Submission styles */
 #uploadForm {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 400px;
-  width: 100%;
+  width: 50%;
 }
 
 #uploadForm label {
@@ -55,16 +55,7 @@ button[type="submit"]:hover {
   background-color: #45a049;
 }
 
-button[type="submit"]:focus {
-  outline: none;
-}
-
-@media (max-width: 600px) {
-  #uploadForm {
-    max-width: 90%;
-  }
-}
-
+/* Modal styles */
 .modal {
   display: none;
   position: fixed;
