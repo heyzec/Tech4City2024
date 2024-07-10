@@ -1,1 +1,13 @@
 **/node_modules
+**/.parcel-cache/
+*.png
+*.jpg
+*.yml
+*.yaml
+**/runs
+*.pt
+!backend/model/*
+**/datasets/**/*.txt
+**/datasets/**/*.cache
+**/__pycache__/
+*.py[cod]
