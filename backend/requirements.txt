@@ -1,0 +1,4 @@
+exceptiongroup
+fastapi
+sqlalchemy
+uvicorn
