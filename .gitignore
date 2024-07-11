@@ -11,3 +11,4 @@
 **/datasets/**/*.cache
 **/__pycache__/
 *.py[cod]
+**/old_runs
