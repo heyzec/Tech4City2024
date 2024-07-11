@@ -1,13 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Poor man's hot reload -- refresh every 1s -->
+    <!-- <meta http-equiv="refresh" content="1" /> -->
     <title>Upload Image</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
   <body>
+    <div id="topbar">Tech4City</div>
+    <div id="app">
+      <div id="side-panel">
+        <form id="uploadForm">
+          <label for="imageUpload">Upload Image:</label>
+          <input
+            type="file"
+            id="imageUpload"
+            name="imageUpload"
+            accept="image/*"
+            required
+          />
+
+          <button type="submit" id="submit-btn">Submit Image</button>
+        </form>
+      </div>
+      <div id="main-panel">
+        <div>
+          <button>Clear All</button>
+          <button>Download Images</button>
+        </div>
+
+        <div id="results-container">
+          <div class="card result">
+            <div class="result-header">
+              <p>A photograph of an astronaut riding a motorcycle</p>
+              <progress id="file" value="32" max="100">32%</progress>
+            </div>
+          </div>
+
+          <div class="card result">
+            <div class="result-header">
+              <p>A photograph of an astronaut riding a horse</p>
+            </div>
+            <div class="result-body">
+              <img
+                src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg"
+              />
+            </div>
+          </div>
+
+          <!-- Example only, we probably need to dynamically generate cards via JS, inject HTML -->
+          <div class="card result">
+            <div class="result-header">
+              <p>A photograph of an astronaut riding a horse</p>
+            </div>
+            <div class="result-body">
+              <img
+                src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="tutorialModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -16,24 +73,5 @@
         <button class="nextBtn">Next</button>
       </div>
     </div>
-    <div class="header"></div>
-
-    <form id="uploadForm">
-      <label for="imageUpload">Upload Image:</label><br />
-      <input
-        type="file"
-        id="imageUpload"
-        name="imageUpload"
-        accept="image/*"
-        required
-      /><br /><br />
-
-      <button type="submit" id="submitBtn">Submit</button>
-    </form>
-
-    <div id="placeholder">
-    </div>
-
-    <script src="script.js"></script>
   </body>
 </html>
