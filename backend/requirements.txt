@@ -2,3 +2,8 @@ exceptiongroup
 fastapi
 sqlalchemy
 uvicorn
+torch
+torchvision
+torchaudio
+ultralytics
+pillow

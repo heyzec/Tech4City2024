@@ -1,5 +1,14 @@
 **/node_modules
 **/.parcel-cache/
-
-# Python
-__pycache__/
+*.png
+*.jpg
+*.yml
+*.yaml
+**/runs
+*.pt
+!**/backend/models/*
+**/datasets/**/*.txt
+**/datasets/**/*.cache
+**/__pycache__/
+*.py[cod]
+**/old_runs
