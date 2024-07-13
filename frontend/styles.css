@@ -22,6 +22,12 @@ body {
 
   display: flex;
   flex-direction: column;
+  color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
 }
 
 /* General */
@@ -54,7 +60,7 @@ button:hover {
   height: var(--topbar-height);
   box-sizing: border-box;
   overflow: clip;
-  padding: 5px;
+  padding: 10px;
 
   background-color: #0d0e10;
   color: white;
@@ -92,7 +98,6 @@ button:hover {
   gap: 15px;
 }
 
-
 .result {
   background-color: #222222;
   color: white;
@@ -107,12 +112,31 @@ button:hover {
 #submit-btn {
   width: 100%;
   padding: 10px 20px;
+  margin-top: 10px;
 
-  background-color: purple;
+  background-color: var(--color-primary);
   color: white;
   font-size: 1em;
 }
 
+/* Results panel */
+/* ============================================================ */
+
+.btn {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  color: #e1d9d1;
+  border-radius: var(--border-radius);
+}
+
+.btn-clear {
+  background-color: red;
+}
+
+.btn-download {
+  background-color: var(--color-highlight);
+  color: #0e1111;
+}
 
 /* Tutorial */
 /* ============================================================ */
