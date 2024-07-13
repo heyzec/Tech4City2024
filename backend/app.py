@@ -6,13 +6,22 @@ from typing import List
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from model import Model
+from fastapi.middleware.cors import CORSMiddleware
+
 SQLALCHEMY_DATABASE_URL = "sqlite:///./database.db"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={
+                       "check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 model = Model("./models/best_11_Jul.pt")
+
+
+origins = [
+    "http://localhost:3000",
+]
+
 
 class Photo(Base):
     __tablename__ = "photos"
@@ -22,12 +31,23 @@ class Photo(Base):
     email = Column(String)
     url = Column(String)
 
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
+
 class PhotoCreate(BaseModel):
     name: str
+
 
 class PhotoResponse(BaseModel):
     id: int
@@ -39,12 +59,15 @@ class PhotoResponse(BaseModel):
         from_attributes = True
 
 # Dependency to get the DB session
+
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 @app.post("/photos/", response_model=PhotoResponse)
 async def create_photo(name: str = Form(...), email: EmailStr = Form(...), file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -61,10 +84,12 @@ async def create_photo(name: str = Form(...), email: EmailStr = Form(...), file:
     db.refresh(db_photo)
     return PhotoResponse(id=db_photo.id, name=db_photo.name, email=db_photo.email, base64_data=db_photo.url)
 
+
 @app.get("/photos/", response_model=List[PhotoResponse])
 def read_photos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     photos = db.query(Photo).offset(skip).limit(limit).all()
     return [PhotoResponse(id=photo.id, name=photo.name, email=photo.email, base64_data=photo.url) for photo in photos]
+
 
 @app.get("/photos/{photo_id}", response_model=PhotoResponse)
 def read_photo(photo_id: int, db: Session = Depends(get_db)):
@@ -72,6 +97,7 @@ def read_photo(photo_id: int, db: Session = Depends(get_db)):
     if photo is None:
         raise HTTPException(status_code=404, detail="Photo not found")
     return PhotoResponse(id=photo.id, name=photo.name, email=photo.email, base64_data=photo.url)
+
 
 if __name__ == "__main__":
     import uvicorn
