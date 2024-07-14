@@ -106,12 +106,12 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
 
 
 @app.get("/results", response_model=List[PhotoResponse])
-def read_photos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def read_photos(skip: int = 0, limit: int = -1, db: Session = Depends(get_db)):
     if limit == -1:
         photos = db.query(Photo).offset(skip).all()
     else:
         photos = db.query(Photo).offset(skip).limit(
-            limit).all()  # Default limit 10
+            limit).all()
     return [PhotoResponse(id=photo.id, input=photo.url, output=photo.predicted_url) for photo in photos]
 
 

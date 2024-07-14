@@ -200,3 +200,8 @@ button:hover {
 #current-results-container {
   margin-bottom: 20px;
 }
+
+#results-container {
+  display: flex;
+  flex-direction: column-reverse;
+}

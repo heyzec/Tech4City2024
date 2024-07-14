@@ -166,4 +166,9 @@ button:hover {
 #current-results-container {
   margin-bottom: 20px;
 }
+
+#results-container {
+  flex-direction: column-reverse;
+  display: flex;
+}
 /*# sourceMappingURL=index.1303bb05.css.map */
