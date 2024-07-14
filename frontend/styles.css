@@ -50,6 +50,7 @@ button:hover {
   padding: 20px;
 
   border-radius: 5px;
+  background-color: gray;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -99,9 +100,7 @@ button:hover {
 }
 
 .result {
-  background-color: #222222;
-  color: white;
-  border: 1px solid white;
+  background-color: #333333;
 }
 
 .header {
