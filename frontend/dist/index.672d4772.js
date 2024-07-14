@@ -5,7 +5,7 @@ const SERVER_URL = `http://localhost:8000`;
 class API {
     async get_photos() {
         try {
-            const response = await fetch(`${SERVER_URL}/photos`);
+            const response = await fetch(`${SERVER_URL}/results`);
             if (!response.ok) throw new Error("Failed to fetch photos");
             return await response.json();
         } catch (error) {
@@ -17,7 +17,7 @@ class API {
         try {
             const formData = new FormData();
             formData.append("file", file);
-            const response = await fetch(`${SERVER_URL}/photos`, {
+            const response = await fetch(`${SERVER_URL}/analyze`, {
                 method: "POST",
                 body: formData
             });
@@ -71,7 +71,7 @@ const api = new API();
 //   });
 // });
 // document.addEventListener("DOMContentLoaded", async () => {
-//   const r = await fetch(`${SERVER_URL}/photos`);
+//   const r = await fetch(`${SERVER_URL}/results`);
 //   const data = await r.json();
 //   document.getElementById(
 //     "placeholder"
@@ -90,7 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const fileInput = document.getElementById("imageUpload");
         const file = fileInput.files[0];
         api.upload_photo(file).then((response)=>{
-            console.log("Uploaded photo:", response);
+            console.log("Updated photo: ", `data:image/png;base64,${response.base64_data}`);
+            document.getElementById("resultImage").src = `data:image/png;base64,${response.base64_data}`;
         }).catch((error)=>{
             console.error("Failed to upload photo:", error);
         });

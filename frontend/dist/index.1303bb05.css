@@ -34,10 +34,17 @@ button:hover {
   filter: brightness(80%);
 }
 
-.card {
+.card-result {
+  background-color: #333;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 4px 8px #0000001a, 0 6px 20px #0000001a;
+}
+
+.result-header img, .result-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 #topbar {
@@ -72,12 +79,6 @@ button:hover {
   flex-direction: column;
   gap: 15px;
   display: flex;
-}
-
-.result {
-  color: #fff;
-  background-color: #222;
-  border: 1px solid #fff;
 }
 
 .header {
