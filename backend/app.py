@@ -68,22 +68,19 @@ UPLOAD_DIRECTORY = "./uploaded_files"
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)        
 
-RESULT_DIRECTORY = "./result_files"
-if not os.path.exists(RESULT_DIRECTORY):
-    os.makedirs(RESULT_DIRECTORY)       
-
 app.mount("/files", StaticFiles(directory=UPLOAD_DIRECTORY), name="files")
-app.mount("/results", StaticFiles(directory=RESULT_DIRECTORY), name="results")
 
 @app.post("/analyze/", response_model=PhotoResponse)
 async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_db)):
     # Save the uploaded file
-    file_path = os.path.join(UPLOAD_DIRECTORY, file.filename)
+    file_extension = os.path.splitext(file.filename)[-1]
+    db_input_file_name = f"{uuid4()}{file_extension}"
+    file_path = os.path.join(UPLOAD_DIRECTORY, db_input_file_name)
 
     with open(file_path, "wb") as buffer:
         buffer.write(await file.read())
 
-    file_url = f"/files/{file.filename}"
+    file_url = f"/files/{db_input_file_name}"
 
     # Convert the saved file to base64
     with open(file_path, "rb") as image_file:
@@ -91,7 +88,8 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
 
     # Predict using the model
     result = model.predict(base64_data)
-    result_url = os.path.join(RESULT_DIRECTORY, file.filename)
+    db_output_file_name = f"{uuid4()}{file_extension}"
+    result_url = os.path.join(UPLOAD_DIRECTORY, db_output_file_name)
     Model.save_base64_to_image(result, result_url)
 
     db_photo = Photo(url=file_url, predicted_url=result_url)
