@@ -7,17 +7,18 @@
 | Method | Path | Description |
 | --- | --- | --- |
 | POST | [/analyze/](#postanalyze) | Create Photo |
-| GET | [/results/](#getresults) | Read Photos |
+| GET | [/results](#getresults) | Read Photos |
 | GET | [/results/{photo_id}](#getresultsphoto_id) | Read Photo |
+| DELETE | [/delete](#deletedelete) | Delete All Photos |
 
 ## Reference Table
 
 | Name | Path | Description |
 | --- | --- | --- |
-| AnalyzePostRequest | [#/AnalyzePostRequest](#AnalyzePostRequest) |  |
-| HTTPValidationError | [#/HTTPValidationError](#HTTPValidationError) |  |
-| PhotoResponse | [#/PhotoResponse](#PhotoResponse) |  |
-| ValidationError | [#/ValidationError](#ValidationError) |  |
+| Body_create_photo_analyze__post | [#/components/schemas/Body_create_photo_analyze__post](#componentsschemasbody_create_photo_analyze__post) |  |
+| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |  |
+| PhotoResponse | [#/components/schemas/PhotoResponse](#componentsschemasphotoresponse) |  |
+| ValidationError | [#/components/schemas/ValidationError](#componentsschemasvalidationerror) |  |
 
 ## Path Details
 
@@ -47,7 +48,8 @@ Create Photo
 ```ts
 {
   id: integer
-  base64_data: string
+  input: string
+  output: string
 }
 ```
 
@@ -67,7 +69,7 @@ Create Photo
 
 ***
 
-### [GET]/results/
+### [GET]/results
 
 - Summary  
 Read Photos
@@ -91,7 +93,8 @@ limit?: integer //default: 10
 ```ts
 {
   id: integer
-  base64_data: string
+  input: string
+  output: string
 }[]
 ```
 
@@ -125,7 +128,8 @@ Read Photo
 ```ts
 {
   id: integer
-  base64_data: string
+  input: string
+  output: string
 }
 ```
 
@@ -143,9 +147,26 @@ Read Photo
 }
 ```
 
+***
+
+### [DELETE]/delete
+
+- Summary  
+Delete All Photos
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{}
+```
+
 ## References
 
-### #/AnalyzePostRequest
+### #/components/schemas/Body_create_photo_analyze__post
 
 ```ts
 {
@@ -153,7 +174,7 @@ Read Photo
 }
 ```
 
-### #/HTTPValidationError
+### #/components/schemas/HTTPValidationError
 
 ```ts
 {
@@ -165,16 +186,17 @@ Read Photo
 }
 ```
 
-### #/PhotoResponse
+### #/components/schemas/PhotoResponse
 
 ```ts
 {
   id: integer
-  base64_data: string
+  input: string
+  output: string
 }
 ```
 
-### #/ValidationError
+### #/components/schemas/ValidationError
 
 ```ts
 {

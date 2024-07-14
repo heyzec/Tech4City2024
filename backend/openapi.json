@@ -43,10 +43,10 @@
         }
       }
     },
-    "/results/": {
+    "/results": {
       "get": {
         "summary": "Read Photos",
-        "operationId": "read_photos_results__get",
+        "operationId": "read_photos_results_get",
         "parameters": [
           {
             "name": "skip",
@@ -79,7 +79,7 @@
                   "items": {
                     "$ref": "#/components/schemas/PhotoResponse"
                   },
-                  "title": "Response Read Photos Results  Get"
+                  "title": "Response Read Photos Results Get"
                 }
               }
             }
@@ -135,6 +135,24 @@
           }
         }
       }
+    },
+    "/delete": {
+      "delete": {
+        "summary": "Delete All Photos",
+        "operationId": "delete_all_photos_delete_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -172,15 +190,20 @@
             "type": "integer",
             "title": "Id"
           },
-          "base64_data": {
+          "input": {
             "type": "string",
-            "title": "Base64 Data"
+            "title": "Input"
+          },
+          "output": {
+            "type": "string",
+            "title": "Output"
           }
         },
         "type": "object",
         "required": [
           "id",
-          "base64_data"
+          "input",
+          "output"
         ],
         "title": "PhotoResponse"
       },

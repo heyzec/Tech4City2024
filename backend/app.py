@@ -28,6 +28,7 @@ class Photo(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     url = Column(String)
+    predicted_url = Column(String)
 
 
 Base.metadata.create_all(bind=engine)
@@ -45,7 +46,8 @@ app.add_middleware(
 
 class PhotoResponse(BaseModel):
     id: int
-    base64_data: str
+    input: str
+    output: str
 
     class Config:
         from_attributes = True
@@ -64,18 +66,22 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
     # Read the file and convert it to base64
     file_contents = await file.read()
     base64_data = base64.b64encode(file_contents).decode('utf-8')
-    db_photo = Photo(url=base64_data)
     result = model.predict(base64_data)
+
+    db_photo = Photo(url=base64_data, predicted_url=result)
     db.add(db_photo)
     db.commit()
     db.refresh(db_photo)
-    return PhotoResponse(id=db_photo.id, base64_data=result)
+    return PhotoResponse(id=db_photo.id, input=base64_data, output=result)
 
 
-@app.get("/results/", response_model=List[PhotoResponse])
+@app.get("/results", response_model=List[PhotoResponse])
 def read_photos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    photos = db.query(Photo).offset(skip).limit(limit).all()
-    return [PhotoResponse(id=photo.id, base64_data=photo.url) for photo in photos]
+    if limit == -1:
+        photos = db.query(Photo).offset(skip).all()
+    else:
+        photos = db.query(Photo).offset(skip).limit(limit).all()  # Default limit 10
+    return [PhotoResponse(id=photo.id, input=photo.url, output=photo.predicted_url) for photo in photos]
 
 
 @app.get("/results/{photo_id}", response_model=PhotoResponse)
@@ -83,7 +89,18 @@ def read_photo(photo_id: int, db: Session = Depends(get_db)):
     photo = db.query(Photo).filter(Photo.id == photo_id).first()
     if photo is None:
         raise HTTPException(status_code=404, detail="Photo not found")
-    return PhotoResponse(id=photo.id, base64_data=photo.url)
+    return PhotoResponse(id=photo.id, input=photo.url, output=photo.predicted_url)
+
+
+@app.delete("/delete")
+def delete_all_photos(db: Session = Depends(get_db)):
+    try:
+        db.query(Photo).delete()
+        db.commit()
+        return {"message": "All entries deleted successfully"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to delete entries: {str(e)}")
 
 
 if __name__ == "__main__":
