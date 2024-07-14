@@ -1,12 +1,16 @@
 import base64
+from typing import List
+
 from fastapi import FastAPI, Depends, Form, HTTPException, File, UploadFile
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
-from typing import List
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
+
 from model import Model
-from fastapi.middleware.cors import CORSMiddleware
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./database.db"
 
@@ -15,7 +19,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
-model = Model("./models/best_11_Jul.pt")
+model = Model("./backend/models/best_11_Jul.pt")
 
 
 origins = [
@@ -102,6 +106,24 @@ def delete_all_photos(db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to delete entries: {str(e)}")
 
+
+# Static files
+############################################################
+
+@app.get("/")
+def read_index():
+    return FileResponse("frontend/index.html")
+
+app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
+
+
+@app.get("/styles.css")
+def read_css():
+    return FileResponse("frontend/styles.css")
+
+@app.get("/script.js")
+def read_js():
+    return FileResponse("frontend/script.js")
 
 if __name__ == "__main__":
     import uvicorn
