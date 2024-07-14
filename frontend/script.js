@@ -136,13 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
       api
         .upload_photo(file)
         .then((response) => {
-          console.log(
-            "Updated photo: ",
-            `data:image/png;base64,${response.output}`
-          );
-          document.getElementById(
-            "resultImage"
-          ).src = `data:image/png;base64,${response.output}`;
+          console.log("Updated photo: ", response.output);
+          document.getElementById("currentInputImage").src = response.input;
+          document.getElementById("currentResultImage").src = response.output;
         })
         .catch((error) => {
           console.error("Failed to upload photo:", error);
@@ -196,3 +192,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("Failed to fetch and display images:", error);
   }
 });
+
+async function deleteAllPhotos() {
+  try {
+    const response = await fetch(`${SERVER_URL}/delete`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete entries");
+    }
+    const data = await response.json();
+    console.log(data.message);
+    location.reload();
+  } catch (error) {
+    console.error("Error deleting entries:", error);
+  }
+}

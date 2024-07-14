@@ -29,29 +29,25 @@
       </div>
       <div id="main-panel">
         <div>
-          <button class="btn btn-clear">Clear All</button>
+          <button class="btn btn-clear" onclick="deleteAllPhotos()">
+            Clear All
+          </button>
           <button class="btn btn-download">Download Images</button>
         </div>
 
         <div id="results-container">
           <div class="card-result">
             <div class="result-header">
-              <p>A photograph of an astronaut riding a motorcycle</p>
-              <progress id="file" value="32" max="100">32%</progress>
-            </div>
-          </div>
-
-          <div class="card-result">
-            <div class="result-header">
               <p>Input</p>
-              <img id="resultImage" src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg">
+              <img id="currentInputImage" src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg">
             </div>
             <div class="result-body">
               <p>Output</p>
-              <img id="resultImage" src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg">
+              <img id="currentResultImage" src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg">
             </div>
           </div>
         </div>
+        <div id="results-container"></div>
       </div>
     </div>
     <div id="tutorialModal" class="modal">

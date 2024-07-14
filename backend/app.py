@@ -56,6 +56,8 @@ class PhotoResponse(BaseModel):
         from_attributes = True
 
 # Dependency to get the DB session
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -63,12 +65,14 @@ def get_db():
     finally:
         db.close()
 
+
 # Directory to save uploaded files
 UPLOAD_DIRECTORY = "./uploaded_files"
 if not os.path.exists(UPLOAD_DIRECTORY):
-    os.makedirs(UPLOAD_DIRECTORY)        
+    os.makedirs(UPLOAD_DIRECTORY)
 
 app.mount("/files", StaticFiles(directory=UPLOAD_DIRECTORY), name="files")
+
 
 @app.post("/analyze/", response_model=PhotoResponse)
 async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -100,12 +104,14 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
 
     return PhotoResponse(id=db_photo.id, input=file_url, output=result_url)
 
+
 @app.get("/results", response_model=List[PhotoResponse])
 def read_photos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     if limit == -1:
         photos = db.query(Photo).offset(skip).all()
     else:
-        photos = db.query(Photo).offset(skip).limit(limit).all()  # Default limit 10
+        photos = db.query(Photo).offset(skip).limit(
+            limit).all()  # Default limit 10
     return [PhotoResponse(id=photo.id, input=photo.url, output=photo.predicted_url) for photo in photos]
 
 
@@ -125,7 +131,8 @@ def delete_all_photos(db: Session = Depends(get_db)):
         return {"message": "All entries deleted successfully"}
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to delete entries: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to delete entries: {str(e)}")
 
 
 if __name__ == "__main__":

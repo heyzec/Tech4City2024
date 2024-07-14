@@ -35,7 +35,9 @@
       </div>
       <div id="main-panel">
         <div>
-          <button class="btn btn-clear">Clear All</button>
+          <button class="btn btn-clear" onclick="deleteAllPhotos()">
+            Clear All
+          </button>
           <button class="btn btn-download">Download Images</button>
         </div>
 
@@ -44,14 +46,14 @@
             <div class="result-header">
               <p>Input</p>
               <img
-                id="inputImage"
+                id="currentInputImage"
                 src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg"
               />
             </div>
             <div class="result-body">
               <p>Output</p>
               <img
-                id="resultImage"
+                id="currentResultImage"
                 src="https://img.freepik.com/premium-photo/astronaut-riding-horse-which-is-wear-space-helmet-with-intergalactic-space-retro-style-them_945210-226.jpg"
               />
             </div>

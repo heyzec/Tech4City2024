@@ -103,12 +103,62 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         const file = fileInput.files[0];
         if (file) api.upload_photo(file).then((response)=>{
-            console.log("Updated photo: ", `data:image/png;base64,${response.base64_data}`);
-            document.getElementById("resultImage").src = `data:image/png;base64,${response.base64_data}`;
+            console.log("Updated photo: ", response.output);
+            document.getElementById("currentInputImage").src = response.input;
+            document.getElementById("currentResultImage").src = response.output;
         }).catch((error)=>{
             console.error("Failed to upload photo:", error);
         });
     });
 });
+document.addEventListener("DOMContentLoaded", async function() {
+    const resultsContainer = document.getElementById("results-container");
+    try {
+        const response = await fetch(`${SERVER_URL}/results`);
+        const photos = await response.json();
+        photos.forEach((photo)=>{
+            const cardResult = document.createElement("div");
+            cardResult.classList.add("card-result");
+            const resultHeader = document.createElement("div");
+            resultHeader.classList.add("result-header");
+            const inputText = document.createElement("p");
+            inputText.textContent = "Input";
+            const inputImage = document.createElement("img");
+            inputImage.src = photo.input;
+            inputImage.alt = "Input Image";
+            inputImage.classList.add("result-image");
+            const resultBody = document.createElement("div");
+            resultBody.classList.add("result-body");
+            const outputText = document.createElement("p");
+            outputText.textContent = "Output";
+            const outputImage = document.createElement("img");
+            outputImage.src = photo.output;
+            outputImage.alt = "Output Image";
+            outputImage.classList.add("result-image");
+            resultHeader.appendChild(inputText);
+            resultHeader.appendChild(inputImage);
+            resultBody.appendChild(outputText);
+            resultBody.appendChild(outputImage);
+            cardResult.appendChild(resultHeader);
+            cardResult.appendChild(resultBody);
+            resultsContainer.appendChild(cardResult);
+        });
+    } catch (error) {
+        console.error("Failed to fetch and display images:", error);
+    }
+});
+async function deleteAllPhotos() {
+    try {
+        const response = await fetch(`${SERVER_URL}/delete`, {
+            method: "DELETE"
+        });
+        if (!response.ok) throw new Error("Failed to delete entries");
+        const data = await response.json();
+        console.log(data.message);
+        location.reload();
+    } catch (error) {
+        console.error("Error deleting entries:", error);
+    }
+}
 
 //# sourceMappingURL=index.672d4772.js.map
