@@ -1,3 +1,6 @@
+from uuid import uuid4
+import os
+from fastapi.staticfiles import StaticFiles
 import base64
 from fastapi import FastAPI, Depends, Form, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
@@ -60,20 +63,43 @@ def get_db():
     finally:
         db.close()
 
+# Directory to save uploaded files
+UPLOAD_DIRECTORY = "./uploaded_files"
+if not os.path.exists(UPLOAD_DIRECTORY):
+    os.makedirs(UPLOAD_DIRECTORY)        
+
+RESULT_DIRECTORY = "./result_files"
+if not os.path.exists(RESULT_DIRECTORY):
+    os.makedirs(RESULT_DIRECTORY)       
+
+app.mount("/files", StaticFiles(directory=UPLOAD_DIRECTORY), name="files")
+app.mount("/results", StaticFiles(directory=RESULT_DIRECTORY), name="results")
 
 @app.post("/analyze/", response_model=PhotoResponse)
 async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    # Read the file and convert it to base64
-    file_contents = await file.read()
-    base64_data = base64.b64encode(file_contents).decode('utf-8')
-    result = model.predict(base64_data)
+    # Save the uploaded file
+    file_path = os.path.join(UPLOAD_DIRECTORY, file.filename)
 
-    db_photo = Photo(url=base64_data, predicted_url=result)
+    with open(file_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    file_url = f"/files/{file.filename}"
+
+    # Convert the saved file to base64
+    with open(file_path, "rb") as image_file:
+        base64_data = base64.b64encode(image_file.read()).decode('utf-8')
+
+    # Predict using the model
+    result = model.predict(base64_data)
+    result_url = os.path.join(RESULT_DIRECTORY, file.filename)
+    Model.save_base64_to_image(result, result_url)
+
+    db_photo = Photo(url=file_url, predicted_url=result_url)
     db.add(db_photo)
     db.commit()
     db.refresh(db_photo)
-    return PhotoResponse(id=db_photo.id, input=base64_data, output=result)
 
+    return PhotoResponse(id=db_photo.id, input=file_url, output=result_url)
 
 @app.get("/results", response_model=List[PhotoResponse])
 def read_photos(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
