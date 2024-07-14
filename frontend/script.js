@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       inputText.textContent = "Input";
 
       const inputImage = document.createElement("img");
-      // inputImage.src = photo.input;
+      inputImage.src = photo.input;
       inputImage.alt = "Input Image";
       inputImage.classList.add("result-image");
 
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       outputText.textContent = "Output";
 
       const outputImage = document.createElement("img");
-      // outputImage.src = photo.output;
+      outputImage.src = photo.output;
       outputImage.alt = "Output Image";
       outputImage.classList.add("result-image");
 
