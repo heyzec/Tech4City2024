@@ -119,7 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
     api
       .upload_photo(file)
       .then((response) => {
-        console.log("Uploaded photo:", response);
+        console.log(
+          "Updated photo: ",
+          `data:image/png;base64,${response.base64_data}`
+        );
+        document.getElementById(
+          "resultImage"
+        ).src = `data:image/png;base64,${response.base64_data}`;
       })
       .catch((error) => {
         console.error("Failed to upload photo:", error);

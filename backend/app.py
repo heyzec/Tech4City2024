@@ -19,7 +19,7 @@ model = Model("./models/best_11_Jul.pt")
 
 
 origins = [
-    "http://localhost:3000",
+    "*",
 ]
 
 
@@ -65,11 +65,11 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
     file_contents = await file.read()
     base64_data = base64.b64encode(file_contents).decode('utf-8')
     db_photo = Photo(url=base64_data)
-    print(db_photo)
+    result = model.predict(base64_data)
     db.add(db_photo)
     db.commit()
     db.refresh(db_photo)
-    return PhotoResponse(id=db_photo.id, base64_data=db_photo.url)
+    return PhotoResponse(id=db_photo.id, base64_data=result)
 
 
 @app.get("/results/", response_model=List[PhotoResponse])
