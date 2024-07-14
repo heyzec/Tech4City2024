@@ -45,13 +45,20 @@ button:hover {
 }
 
 /* General style mimicking Material Card */
-.card {
+.card-result {
   /* margin: 20px; */
   padding: 20px;
 
   border-radius: 5px;
-  background-color: gray;
+  background-color: #333333;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.result-header img,
+.result-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* App */
@@ -97,10 +104,6 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-.result {
-  background-color: #333333;
 }
 
 .header {
