@@ -162,4 +162,8 @@ button:hover {
 .nextBtn:hover {
   background-color: #647aec;
 }
+
+#current-results-container {
+  margin-bottom: 20px;
+}
 /*# sourceMappingURL=index.1303bb05.css.map */

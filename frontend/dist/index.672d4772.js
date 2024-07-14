@@ -106,6 +106,8 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Updated photo: ", response.output);
             document.getElementById("currentInputImage").src = response.input;
             document.getElementById("currentResultImage").src = response.output;
+            document.getElementById("currentInputImage").style.display = "block";
+            document.getElementById("currentResultImage").style.display = "block";
         }).catch((error)=>{
             console.error("Failed to upload photo:", error);
         });
