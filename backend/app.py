@@ -80,7 +80,7 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
     with open(file_path, "wb") as buffer:
         buffer.write(await file.read())
 
-    file_url = f"/files/{db_input_file_name}"
+    file_url = f"http://127.0.0.1:8000/files/{db_input_file_name}"
 
     # Convert the saved file to base64
     with open(file_path, "rb") as image_file:
@@ -89,8 +89,9 @@ async def create_photo(file: UploadFile = File(...), db: Session = Depends(get_d
     # Predict using the model
     result = model.predict(base64_data)
     db_output_file_name = f"{uuid4()}{file_extension}"
-    result_url = os.path.join(UPLOAD_DIRECTORY, db_output_file_name)
-    Model.save_base64_to_image(result, result_url)
+    result_path = os.path.join(UPLOAD_DIRECTORY, db_output_file_name)
+    result_url = f"http://127.0.0.1:8000/files/{db_output_file_name}"
+    Model.save_base64_to_image(result, result_path)
 
     db_photo = Photo(url=file_url, predicted_url=result_url)
     db.add(db_photo)
