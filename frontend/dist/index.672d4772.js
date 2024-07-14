@@ -84,12 +84,25 @@ const api = new API();
 //   handleUpload();
 // };
 document.addEventListener("DOMContentLoaded", function() {
+    const fileInput = document.getElementById("imageUpload");
+    const placeholderText = document.querySelector(".result-header p");
+    fileInput.addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            document.getElementById("uploadedImage").src = imageUrl;
+            document.getElementById("uploadedImage").style.display = "block";
+            placeholderText.textContent = "Uploaded Image";
+        } else {
+            document.getElementById("uploadedImage").src = "";
+            document.getElementById("uploadedImage").style.display = "none";
+        }
+    });
     const uploadForm = document.getElementById("uploadForm");
     uploadForm.addEventListener("submit", function(event) {
         event.preventDefault();
-        const fileInput = document.getElementById("imageUpload");
         const file = fileInput.files[0];
-        api.upload_photo(file).then((response)=>{
+        if (file) api.upload_photo(file).then((response)=>{
             console.log("Updated photo: ", `data:image/png;base64,${response.base64_data}`);
             document.getElementById("resultImage").src = `data:image/png;base64,${response.base64_data}`;
         }).catch((error)=>{
