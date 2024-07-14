@@ -4,17 +4,104 @@
   --color-secondary: #b388eb; /* Purple */
   --color-accent: #fdc5f5; /* Pink */
   --color-highlight: #72ddf7; /* Cyan */
+
+  /* Consistent radius for cards, buttons, etc */
+  --border-radius: 5px;
+
+  --topbar-height: 70px;
+
+  /* Temp vars, can CTRL F replace */
+  --card-bg: grey;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #222222;
   margin: 0;
   padding: 0;
+
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column;
+  color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* General */
+/* ============================================================ */
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: filter 0.3s ease;
+}
+
+button:hover {
+  filter: brightness(80%);
+}
+
+/* General style mimicking Material Card */
+.card {
+  /* margin: 20px; */
+  padding: 20px;
+
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* App */
+/* ============================================================ */
+
+#topbar {
+  height: var(--topbar-height);
+  box-sizing: border-box;
+  overflow: clip;
+  padding: 10px;
+
+  background-color: #0d0e10;
+  color: white;
+  font-size: 2.5em;
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: calc(100vh - var(--topbar-height));
+}
+
+/* Side Panel */
+/* ============================================================ */
+
+#side-panel {
+  width: 40%;
+  padding: 10px;
+}
+
+/* Main Panel */
+/* ============================================================ */
+
+#main-panel {
+  width: 60%;
+  padding: 20px;
+
+  overflow-y: scroll;
+}
+
+#results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result {
+  background-color: #222222;
+  color: white;
+  border: 1px solid white;
 }
 
 .header {
@@ -22,38 +109,37 @@ body {
   background-color: #333;
 }
 
-/* Form Submission styles */
-#uploadForm {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 50%;
-}
-
-#uploadForm label {
-  font-size: 1.2em;
-}
-
-#imageUpload {
-  margin-top: 10px;
-}
-
-button[type="submit"] {
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
+#submit-btn {
+  width: 100%;
   padding: 10px 20px;
+  margin-top: 10px;
+
+  background-color: var(--color-primary);
+  color: white;
   font-size: 1em;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
-  background-color: #45a049;
+/* Results panel */
+/* ============================================================ */
+
+.btn {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  color: #e1d9d1;
+  border-radius: var(--border-radius);
 }
+
+.btn-clear {
+  background-color: #ff4d4d;
+}
+
+.btn-download {
+  background-color: var(--color-highlight);
+  color: #0e1111;
+}
+
+/* Tutorial */
+/* ============================================================ */
 
 /* Modal styles */
 .modal {
