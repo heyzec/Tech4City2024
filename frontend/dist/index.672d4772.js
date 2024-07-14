@@ -13,11 +13,9 @@ class API {
             throw error;
         }
     }
-    async upload_photo(name, email, file) {
+    async upload_photo(file) {
         try {
             const formData = new FormData();
-            formData.append("name", name);
-            formData.append("email", email);
             formData.append("file", file);
             const response = await fetch(`${SERVER_URL}/photos`, {
                 method: "POST",
@@ -91,10 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         const fileInput = document.getElementById("imageUpload");
         const file = fileInput.files[0];
-        //TODO: Remove these after fixing backend
-        const name = "John Doe";
-        const email = "john.doe@example.com";
-        api.upload_photo(name, email, file).then((response)=>{
+        api.upload_photo(file).then((response)=>{
             console.log("Uploaded photo:", response);
         }).catch((error)=>{
             console.error("Failed to upload photo:", error);
